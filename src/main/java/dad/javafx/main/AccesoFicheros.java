@@ -1,7 +1,13 @@
 package dad.javafx.main;
 
 
+import java.io.File;
+
 import javafx.application.Application;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
+import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
 import javafx.geometry.HPos;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
@@ -59,6 +65,7 @@ public class AccesoFicheros extends Application {
 		ruteLb.setText("Ruta Actual");
 		
 		ruteTf = new TextField();
+		ruteTf.setText(System.getProperty("user.home")+"\\Prueba_ficheros");
 		fileTf = new TextField();
 		fileTf.setPromptText("Carpeta o fichero a crear, eliminar o destino a mover");
 		
@@ -70,6 +77,7 @@ public class AccesoFicheros extends Application {
 		moveBt.setText("Mover");
 		vFilesBt = new Button();
 		vFilesBt.setText("Ver ficheros y carpetas");
+		vFilesBt.setOnAction(onComprobar(ruteTf.getText().toString()));
 		vContentBt = new Button();
 		vContentBt.setText("Ver Contenido Fichero");
 		modifyBt = new Button();
@@ -146,11 +154,26 @@ public class AccesoFicheros extends Application {
 		
 		//Escena
 		
-		Scene scene = new Scene(panel, 320, 200);
+		Scene scene = new Scene(panel, 620, 400);
 		
 		primaryStage.setTitle("Acceso a Datos");
 		primaryStage.setScene(scene);
 		primaryStage.show();
+	}
+
+	private EventHandler<ActionEvent> onComprobar(String string) {
+		
+		File directory = new File(string);
+		
+		File[] files = directory.listFiles();
+		
+		ObservableList<String> names = FXCollections.observableArrayList();
+		names.addAll(files.toString());
+		ListView<String> listView = new ListView<String>(names);
+		this.listLv = listView;
+				
+		
+		return null;
 	}
 
 	public static void main(String[] args) {
